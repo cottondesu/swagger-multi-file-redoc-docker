@@ -1,0 +1,16 @@
+ApiResponse:
+  $ref: ./ApiResponse.yml
+Cat:
+  $ref: ./Cat.yml
+Category:
+  $ref: ./Category.yml
+Dog:
+  $ref: ./Dog.yml
+HoneyBee:
+  $ref: ./HoneyBee.yml
+Id:
+  $ref: ./Id.yml
+Pet:
+  $ref: ./Pet.yml
+Tag:
+  $ref: ./Tag.yml

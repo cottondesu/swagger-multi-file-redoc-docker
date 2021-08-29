@@ -1,0 +1,92 @@
+parameters:
+  - name: Accept-Language
+    in: header
+    description: "The language you prefer for messages. Supported values are en-AU, en-CA, en-GB, en-US"
+    example: en-US
+    required: false
+    schema:
+      type: string
+      default: en-AU
+  - name: cookieParam
+    in: cookie
+    description: Some cookie
+    required: true
+    schema:
+      type: integer
+      format: int64
+post:
+  tags:
+    - pet
+  summary: Add a new pet to the store
+  description: Add new pet to the store inventory.
+  operationId: addPet
+  responses:
+    '405':
+      description: Invalid input
+  security:
+    - petstore_auth:
+        - 'write:pets'
+        - 'read:pets'
+  x-codeSamples:
+    - lang: 'C#'
+      source: |
+        PetStore.v1.Pet pet = new PetStore.v1.Pet();
+        pet.setApiKey("your api key");
+        pet.petType = PetStore.v1.Pet.TYPE_DOG;
+        pet.name = "Rex";
+        // set other fields
+        PetStoreResponse response = pet.create();
+        if (response.statusCode == HttpStatusCode.Created)
+        {
+          // Successfully created
+        }
+        else
+        {
+          // Something wrong -- check response for errors
+          Console.WriteLine(response.getRawResponse());
+        }
+    - lang: PHP
+      source: |
+        $form = new \PetStore\Entities\Pet();
+        $form->setPetType("Dog");
+        $form->setName("Rex");
+        // set other fields
+        try {
+            $pet = $client->pets()->create($form);
+        } catch (UnprocessableEntityException $e) {
+            var_dump($e->getErrors());
+        }
+  requestBody:
+    $ref: '#/components/requestBodies/Pet'
+put:
+  tags:
+    - pet
+  summary: Update an existing pet
+  description: ''
+  operationId: updatePet
+  responses:
+    '400':
+      description: Invalid ID supplied
+    '404':
+      description: Pet not found
+    '405':
+      description: Validation exception
+  security:
+    - petstore_auth:
+        - 'write:pets'
+        - 'read:pets'
+  x-codeSamples:
+    - lang: PHP
+      source: |
+        $form = new \PetStore\Entities\Pet();
+        $form->setPetId(1);
+        $form->setPetType("Dog");
+        $form->setName("Rex");
+        // set other fields
+        try {
+            $pet = $client->pets()->update($form);
+        } catch (UnprocessableEntityException $e) {
+            var_dump($e->getErrors());
+        }
+  requestBody:
+    $ref: '#/components/requestBodies/Pet'

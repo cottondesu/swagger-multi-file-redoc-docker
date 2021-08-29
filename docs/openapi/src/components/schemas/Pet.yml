@@ -1,0 +1,60 @@
+type: object
+required:
+  - name
+  - photoUrls
+discriminator:
+  propertyName: petType
+  mapping:
+    cat: '#/components/schemas/Cat'
+    dog: '#/components/schemas/Dog'
+    bee: '#/components/schemas/HoneyBee'
+properties:
+  id:
+    externalDocs:
+      description: "Find more info here"
+      url: "https://example.com"
+    description: Pet ID
+    $ref: '#/components/schemas/Id'
+  category:
+    description: Categories this pet belongs to
+    $ref: '#/components/schemas/Category'
+  name:
+    description: The name given to a pet
+    type: string
+    example: Guru
+  photoUrls:
+    description: The list of URL to a cute photos featuring pet
+    type: [ string, integer, 'null', array ]
+    minItems: 1
+    maxItems: 20
+    xml:
+      name: photoUrl
+      wrapped: true
+    items:
+      type: string
+      format: url
+  friend:
+    $ref: '#/components/schemas/Pet'
+  tags:
+    description: Tags attached to the pet
+    type: array
+    exclusiveMaximum: 100
+    exclusiveMinimum: 0
+    xml:
+      name: tag
+      wrapped: true
+    items:
+      $ref: '#/components/schemas/Tag'
+  status:
+    type: string
+    description: Pet status in the store
+    enum:
+      - available
+      - pending
+      - sold
+    default: pending
+  petType:
+    description: Type of a pet
+    type: string
+xml:
+  name: Pet

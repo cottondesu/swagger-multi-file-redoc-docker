@@ -1,0 +1,11 @@
+type: object
+properties:
+  id:
+    description: Tag ID
+    $ref: '#/components/schemas/Id'
+  name:
+    description: Tag name
+    type: string
+    minLength: 1
+xml:
+  name: Tag
